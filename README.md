@@ -18,6 +18,10 @@ decrease of the temperature and humidity.
 
 The simulator is not tested extensively so please report bugs.
 
+## Note
+
+The sketch does not compile for ESP32 yet.
+
 ## Future
 
 Idea is to use the code of the simulator in combination with a 
