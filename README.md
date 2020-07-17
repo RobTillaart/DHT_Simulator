@@ -16,11 +16,15 @@ Currently the code uses two analog ports to get some value for temperature
 and humidity. Just connect two potmeters to play and simulate increase and 
 decrease of the temperature and humidity.
 
+## 0.2.0 version
+
+- added flag for random generation of data
+- added flag for debug
+- explicit support ESP32 & ESP8266
+- added counter # samples generated per second ==> so one sees it still runs
+- added error and debug messages // some commented
+
 The simulator is not tested extensively so please report bugs.
-
-## Note
-
-The sketch does not compile for ESP32 yet.
 
 ## Future
 
@@ -32,6 +36,7 @@ with any DHT library with the performance of a DHT (~ 5ms).
 
 ## Operation
 
-Compile and use/tweak it to your needs.
+- adjust the pins in the head of the program to meet your setup
+- compile, connect, run
 
-Have fun.
+And have fun.
