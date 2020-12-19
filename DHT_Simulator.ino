@@ -103,8 +103,8 @@ void loop()
 
   // READ "ERROR" PINS
   CRCerror        = digitalRead(CRCPin) == LOW;
-  TimeOutError    = digitalRead(TimeOutPin == LOW;
-  PulseLenError   = digitalRead(PulseLenPin == LOW;
+  TimeOutError    = digitalRead(TimeOutPin) == LOW;
+  PulseLenError   = digitalRead(PulseLenPin) == LOW;
 
 
   // WAKE UP SIGNAL DETECTED

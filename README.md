@@ -25,7 +25,8 @@ decrease of the temperature and humidity.
 
 - added pin to trigger CRC errors
 - added temp and hum pin for input for CI
-- added pins for CRC error, pulselength error and timeout error (to be tested in detail)
+- added pins for CRC error, pulselength error and timeout error 
+(to be tested in detail)
 
 
 ## 0.2.0 version
