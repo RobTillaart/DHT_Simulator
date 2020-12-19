@@ -21,6 +21,13 @@ Currently the code uses two analog ports to get a value for temperature
 and humidity. Just connect two potmeters to play and simulate increase and 
 decrease of the temperature and humidity.
 
+## 0.2.1
+
+- added pin to trigger CRC errors
+- added temp and hum pin for input for CI
+- added pins for CRC error, pulselength error and timeout error (to be tested in detail)
+
+
 ## 0.2.0 version
 
 - added flag for random generation of data

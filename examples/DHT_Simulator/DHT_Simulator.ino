@@ -7,41 +7,46 @@
 //     URL: https://github.com/RobTillaart/DHT_Simulator
 
 // TODO
-// - simulate CRC errors
-// - simulate timeout error
-// - simulate pulselength error (single bit)
 // - split loop into some functions?
 
 
 // SET ACTUAL PINS PER PLATFORM
-const int dataPin = 5;    // connect to MCU ( !! also connect GND !! )
+const int dataPin     = 5;    // connect to MCU ( !! also connect GND !! )
+const int CRCPin      = 6;    // connect switch to simulate CRC errors.
+const int TimeOutPin  = 7;    // connect switch to simulate timeout errors.
+const int PulseLenPin = 8;    // connect switch to simulate pulselength errors.
+
 
 #if defined(__AVR__)
-const int humPin = A0;    // analog pins for potmeters.
+const int humPin  = A0;   // analog pins for potmeters.
 const int tempPin = A2;
 #elif defined(ESP32)
-const int humPin = 14;
+const int humPin  = 14;
 const int tempPin = 15;
 #elif defined(ESP8266)
-const int humPin = 2;
+const int humPin  = 2;
 const int tempPin = 3;
 #else // CI 
-const int humPin = A0;    // analog pins for potmeters.
+const int humPin  = A0;
 const int tempPin = A2;
 #endif
 
 
 // DATA TO SEND
-byte b[5];         // actual bytes sent
-int humidity;      // humidity * 10     - prevent float operations
-int temperature;   // temperature * 10
+byte b[5];                // actual bytes sent
+int humidity;             // humidity * 10     - prevent float operations
+int temperature;          // temperature * 10
 
 
 // CONFIGURE
 const bool randomize = true;   // use random generator
-const bool debug = false;      // test data generation
-uint32_t count = 0;            // count values per second generated
-uint32_t lastTime = 0;         // keep track of timing
+const bool debug     = false;  // test data generation
+
+bool CRCerror        = false;  // inject CRC error
+bool TimeOutError    = false;  // 
+bool PulseLenError   = false;  //.
+uint32_t   count     = 0;      // count values per second generated
+uint32_t   lastTime  = 0;      // keep track of timing
 
 
 /////////////////////////////////////////
@@ -51,7 +56,10 @@ void setup()
   Serial.print("Start ");
   Serial.println(__FILE__);
 
-  pinMode(dataPin, INPUT_PULLUP);
+  pinMode(dataPin,     INPUT_PULLUP);
+  pinMode(CRCPin,      INPUT_PULLUP);
+  pinMode(TimeOutPin,  INPUT_PULLUP);
+  pinMode(PulseLenPin, INPUT_PULLUP);
 }
 
 void loop()
@@ -91,6 +99,13 @@ void loop()
     Serial.print(temperature);
     Serial.println();
   }
+
+
+  // READ "ERROR" PINS
+  CRCerror        = digitalRead(CRCPin) == LOW;
+  TimeOutError    = digitalRead(TimeOutPin == LOW;
+  PulseLenError   = digitalRead(PulseLenPin == LOW;
+
 
   // WAKE UP SIGNAL DETECTED
   if (digitalRead(dataPin) == LOW)
@@ -138,6 +153,11 @@ void DHTsend(int H, int T)
   digitalWrite(dataPin, HIGH);
   delayMicroseconds(80);                  // 80 us
 
+  if (TimeOutError)
+  {
+    delayMicroseconds(100);  // inject extra 100 microseconds
+  }
+
   // PREPARE DATA
   b[0] = H / 256;
   b[1] = H & 255;
@@ -151,8 +171,10 @@ void DHTsend(int H, int T)
 
   b[2] |= T / 256;
   b[3] = T & 255;
+
   // CRC
   b[4] = b[0] + b[1] + b[2] + b[3];
+  if (CRCerror) b[4]++;          // inject CRC error
 
   // SEND DATA
   for (int i = 0; i < 5; i++)
@@ -174,6 +196,10 @@ void DHTsendbyte(byte b)
   {
     digitalWrite(dataPin, LOW);
     delayMicroseconds(45);                // 50 us
+    if (PulseLenError)
+    {
+      delayMicroseconds(10);              // inject extra pulselength  // TWEAK amount
+    }
     digitalWrite(dataPin, HIGH);
     if (b & mask) delayMicroseconds(60);  // 70 us
     else delayMicroseconds(24);           // 26 us
