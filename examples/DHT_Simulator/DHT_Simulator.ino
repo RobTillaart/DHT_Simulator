@@ -1,7 +1,7 @@
 //
 //    FILE: DHT_simulator.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 0.2.1
 // PURPOSE: Simulation of the DHT protocol
 //    DATE: 2014-06-14
 //     URL: https://github.com/RobTillaart/DHT_Simulator
@@ -25,6 +25,9 @@ const int tempPin = 15;
 #elif defined(ESP8266)
 const int humPin = 2;
 const int tempPin = 3;
+#else // CI 
+const int humPin = A0;    // analog pins for potmeters.
+const int tempPin = A2;
 #endif
 
 
