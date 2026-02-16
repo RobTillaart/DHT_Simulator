@@ -32,9 +32,29 @@ and humidity. Just connect two potentiometers to play and simulate increase and
 decrease of the temperature and humidity.
 
 
+## 2022-11-01
+- add RP2040 to build-CI
+- update license
+
+## 0.2.1
+
+- added pin to trigger CRC errors
+- added temp and hum pin for input for CI
+- added pins for CRC error, pulse length error and timeout error 
+(to be tested in detail)
+
+
+## 0.2.0 version
+
+- added flag for random generation of data
+- added flag for debug
+- explicit support ESP32 & ESP8266
+- added counter # samples generated per second ==> so one sees it still runs
+- added error and debug messages // some commented
+
 The simulator is not tested extensively so please report bugs.
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/DHTNew
 - https://github.com/RobTillaart/DHTStable
@@ -62,6 +82,14 @@ with any DHT library with the performance of a DHT (~ 5ms).
 behaviour time after time. 
 
 3) make a SHT Simulator class?
+
+
+## Operation
+
+- adjust the pins in the head of the program to meet your setup
+- compile, connect, run
+
+And have fun.
 
 
 ## Support
